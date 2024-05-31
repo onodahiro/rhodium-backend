@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\SurveyController;
+use App\Http\Controllers\NotesController;
 
 /*
 |--------------------------------------------------------------------------
@@ -21,3 +22,6 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::get('/survey',  [SurveyController::class, 'saveAnswer']);
+
+Route::get('/notes',  [NotesController::class, 'getNotes']);
+Route::post('/notes/save-note',  [NotesController::class, 'saveNote']);
