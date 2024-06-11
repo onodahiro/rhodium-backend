@@ -24,4 +24,4 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::get('/survey',  [SurveyController::class, 'saveAnswer']);
 
 Route::get('/notes',  [NotesController::class, 'getNotes']);
-Route::post('/notes/save-note',  [NotesController::class, 'saveNote']);
+Route::post('/notes-save',  [NotesController::class, 'saveNote']);
