@@ -11,11 +11,11 @@ use App\Models\Notes;
 class NotesController extends Controller
 {
     public function getNotes() {
-        return NotesResource::collection(Notes::orderBy('created_at', 'desc')->simplePaginate(5));
+        return NotesResource::collection(Notes::orderBy('created_at', 'desc')->paginate(10));
     }
 
     public function saveNote(Request $request) {
         Notes::create(['text' => $request->text]);
-        return NotesResource::collection(Notes::orderBy('created_at', 'desc')->simplePaginate(5));
+        return NotesResource::collection(Notes::orderBy('created_at', 'desc')->paginate(10));
     }
 }
