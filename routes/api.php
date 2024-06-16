@@ -23,5 +23,8 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 Route::get('/survey',  [SurveyController::class, 'saveAnswer']);
 
-Route::get('/notes',  [NotesController::class, 'getNotes']);
-Route::post('/notes-save',  [NotesController::class, 'saveNote']);
+Route::prefix('notes')->group(function () {
+    Route::get('',  [NotesController::class, 'getNotes']);
+    Route::get('check',  [NotesController::class, 'checkNote']);
+    Route::post('save',  [NotesController::class, 'saveNote']);
+});

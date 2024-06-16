@@ -15,8 +15,9 @@ class NotesResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-            'id' => $this->id += 1,
+            'id' => $this->id,
             'text' => $this->text,
+            'checked' => $this->checked,
             'date_created' => date('d-M-Y', strtotime($this->created_at)),
         ];
     }
