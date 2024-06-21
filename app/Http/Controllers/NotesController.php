@@ -15,7 +15,11 @@ class NotesController extends Controller
     }
 
     public function saveNote(Request $request) {
-        Notes::create(['text' => $request->text]);
+        if (isset($request->text)) {
+            Notes::create(['text' => $request->text]);
+        } else {
+             return response()->json(['message' => 'empty text'], 400);
+        }
         return NotesResource::collection(Notes::orderBy('created_at', 'desc')->paginate(10));
     }
 
@@ -23,6 +27,6 @@ class NotesController extends Controller
         $note = Notes::where('id', $request->id)->first();
         $note->checked = !$note->checked;
         $note->save();
-        return NotesResource::collection(Notes::orderBy('created_at', 'desc')->paginate(10));
+        return response()->json(['id' => $request->id], 200);
     }
 }
