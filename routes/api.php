@@ -3,6 +3,9 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
+use App\Http\Controllers\SurveyController;
+use App\Http\Controllers\NotesController;
+
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -16,4 +19,12 @@ use Illuminate\Support\Facades\Route;
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
+});
+
+Route::get('/survey',  [SurveyController::class, 'saveAnswer']);
+
+Route::prefix('notes')->group(function () {
+    Route::get('',  [NotesController::class, 'getNotes']);
+    Route::get('check',  [NotesController::class, 'checkNote']);
+    Route::post('save',  [NotesController::class, 'saveNote']);
 });
