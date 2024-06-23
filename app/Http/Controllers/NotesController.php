@@ -10,8 +10,12 @@ use App\Models\Notes;
 
 class NotesController extends Controller
 {
+    public function getLastPage() {
+        return Notes::orderBy('created_at')->paginate(10)->lastPage();
+    }
+
     public function getNotes() {
-        return NotesResource::collection(Notes::orderBy('created_at', 'desc')->paginate(10));
+        return NotesResource::collection(Notes::orderBy('created_at')->paginate(10));
     }
 
     public function saveNote(Request $request) {
@@ -20,7 +24,7 @@ class NotesController extends Controller
         } else {
              return response()->json(['message' => 'empty text'], 400);
         }
-        return NotesResource::collection(Notes::orderBy('created_at', 'desc')->paginate(10));
+        return NotesResource::collection(Notes::orderBy('created_at')->paginate(10));
     }
 
     public function checkNote(Request $request) {
