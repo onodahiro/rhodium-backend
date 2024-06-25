@@ -7,6 +7,7 @@ use App\Http\Resources\NotesResource;
 
 use Illuminate\Http\Request;
 use App\Models\Notes;
+use App\Models\Tags;
 
 class NotesController extends Controller
 {
@@ -18,22 +19,47 @@ class NotesController extends Controller
         return NotesResource::collection(Notes::orderBy('created_at')->paginate(10));
     }
 
-    private function getTags($string) {
+    private function removeTags($string) {
         $tags = [];
         $strings = explode(' ', $string);
+
+        foreach ($strings as $key => $str) {
+            if ($str[0] === '#') {
+                $tags[] = $str;
+                unset($strings[$key]); 
+            }
+        }
+
+        $text = implode(' ', $strings);
+        return ['text' => $text, 'tags' => $tags];
+    }
+
+    private function updateTags($string) {
+        $tags = [];
+        $strings = explode(' ', $string);
+
         foreach ($strings as $str) {
             if(strlen($str) && $str[0] === '#') {
                 $str_tag = trim(preg_replace('/\#/', '', $str));
-                if (strlen($str_tag)) array_push($tags, $str_tag);
+                if (strlen($str_tag)) {
+                    $tag = Tags::where('text', $str_tag);
+                        if ($tag === null) {
+                            Tags::create(['text' => $str_tag]);
+                        }
+                    Tags::where('text', $str_tag);
+                }
+                // array_push($tags, $str_tag);
             }
         }
-        return $tags;
+        dd($strings);
+        return 'что это';
     }
 
     public function saveNote(Request $request) {
         if (isset($request->text)) {
-            $this->getTags($request->text);
-            Notes::create(['text' => $request->text]);
+            $todoText = $this->removeTags($request->text);
+            dd($todoText);
+            Notes::create(['text' => $todoText]);
         } else {
              return response()->json(['message' => 'Empty note text'], 400);
         }
