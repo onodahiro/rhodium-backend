@@ -16,4 +16,9 @@ class Notes extends Model
      * @var array<int, string>
      */
     protected $fillable = ['text'];
+
+    public function tags()
+    {
+        return $this->belongsToMany(Tags::class, 'tag_note');
+    }
 }
