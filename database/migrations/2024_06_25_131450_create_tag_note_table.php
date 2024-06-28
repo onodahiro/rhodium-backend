@@ -13,10 +13,10 @@ return new class extends Migration
     {
         Schema::create('tag_note', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('tag_id')->unsigned();
-            $table->unsignedBigInteger('note_id')->unsigned();
-            $table->foreign('tag_id')->references('id')->on('tags')->onDelete('cascade');
-            $table->foreign('note_id')->references('id')->on('notes')->onDelete('cascade');
+            $table->unsignedBigInteger('tags_id')->unsigned();
+            $table->unsignedBigInteger('notes_id')->unsigned();
+            $table->foreign('tags_id')->references('id')->on('tags')->onDelete('cascade');
+            $table->foreign('notes_id')->references('id')->on('notes')->onDelete('cascade');
         });
     }
 

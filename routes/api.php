@@ -28,4 +28,6 @@ Route::prefix('notes')->group(function () {
     Route::get('last',  [NotesController::class, 'getLastPage']);
     Route::get('check',  [NotesController::class, 'checkNote']);
     Route::post('save',  [NotesController::class, 'saveNote']);
+    Route::get('tag',  [NotesController::class, 'getPreloadTags']);
+    Route::post('by-tag',  [NotesController::class, 'getNotesByTag']);
 });
