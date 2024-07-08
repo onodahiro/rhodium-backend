@@ -70,6 +70,6 @@ class NotesController extends Controller
         if (isset($request->text)) {
             return TagsResource::collection($this->notesRepository->getPreloadTags($request->text));
         }
-        return TagsResource::collection($this->notesRepository->getLastTags());
+        return response()->json(['data' => []], 200); 
     }
 }
