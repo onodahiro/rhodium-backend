@@ -26,8 +26,8 @@ class NotesController extends Controller
     }
 
     public function getLastPage(Request $request) {
-        if ($request->byTag) {  
-            $tag = $this->notesRepository->getTag('text', $request->byTag);
+        if ($request->byTagId) {  
+            $tag = $this->notesRepository->getTag('id', $request->byTagId);
             return $tag ? $tag->notes()->paginate(10)->lastPage() : 1;
         }
         return $this->notesRepository->getNotesLastPage();
@@ -55,7 +55,7 @@ class NotesController extends Controller
                 return response()->json(['message' => 'Saved successfully'], 200);
             }
         }
-        return response()->json(['message' => 'Bad request'], 400);
+        return response()->json(['message' => 'Empty text'], 400);
     }
 
     public function checkNote(Request $request) {

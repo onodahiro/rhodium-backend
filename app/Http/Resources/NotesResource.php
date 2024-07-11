@@ -19,7 +19,7 @@ class NotesResource extends JsonResource
             'id' => $this->id,
             'text' => $this->text,
             'checked' => $this->checked,
-            'tags' => $this->tags->map(fn($el) => $el->text),
+            'tags' => $this->tags->map(fn($el) => ["id" => $el->id, "text" => $el->text]),
             'date_created' => date('d-M-Y', strtotime($this->created_at)),
         ];
     }
