@@ -4,11 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-
-//resources
 use App\Http\Resources\NotesResource;
 use App\Http\Resources\TagsResource;
-
 use App\Services\NotesService;
 use App\Repository\NotesRepository;
 
