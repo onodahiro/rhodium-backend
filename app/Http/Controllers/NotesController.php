@@ -3,30 +3,70 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
-use App\Http\Resources\NotesResource;
-
 use Illuminate\Http\Request;
-use App\Models\Notes;
+use App\Http\Resources\NotesResource;
+use App\Http\Resources\TagsResource;
+use App\Services\NotesService;
+use App\Repository\NotesRepository;
 
 class NotesController extends Controller
 {
+    private NotesService $notesService;
+    private NotesRepository $notesRepository;
+
+    public function __construct(
+        NotesService $notesService,
+        NotesRepository $notesRepository,
+    ) {
+        $this->notesService = $notesService;
+        $this->notesRepository = $notesRepository;
+    }
+
+    public function getLastPage(Request $request) {
+        if ($request->byTagId) {  
+            $tag = $this->notesRepository->getTag('id', $request->byTagId);
+            return $tag ? $tag->notes()->paginate(10)->lastPage() : 1;
+        }
+        return $this->notesRepository->getNotesLastPage();
+    }
+
     public function getNotes() {
-        return NotesResource::collection(Notes::orderBy('created_at', 'desc')->paginate(10));
+        return NotesResource::collection($this->notesRepository->getNotes());
+    }
+
+    public function getNotesByTag(Request $request) {
+        if ($request->id) {
+            $notes = $this->notesService->getNotesByTag($request->id);
+            if ($notes) {
+                return NotesResource::collection($notes);
+            }
+            return response()->json(['data' => []], 200); 
+        }
+        return response()->json(['message' => 'Bad request'], 400);
     }
 
     public function saveNote(Request $request) {
         if (isset($request->text)) {
-            Notes::create(['text' => $request->text]);
-        } else {
-             return response()->json(['message' => 'empty text'], 400);
+            $result = $this->notesService->saveNote($request->text);
+            if (isset($result)) {
+                return response()->json(['message' => 'Saved successfully'], 200);
+            }
         }
-        return NotesResource::collection(Notes::orderBy('created_at', 'desc')->paginate(10));
+        return response()->json(['message' => 'Empty text'], 400);
     }
 
     public function checkNote(Request $request) {
-        $note = Notes::where('id', $request->id)->first();
-        $note->checked = !$note->checked;
-        $note->save();
-        return response()->json(['id' => $request->id], 200);
+        $id = $this->notesService->checkNote($request->id);
+        if (isset($id)) {
+            return response()->json(['id' => $id], 200);
+        }
+        return response()->json(['message' => 'Not found'], 404);
+    }
+
+    public function getPreloadTags(Request $request) {
+        if (isset($request->text)) {
+            return TagsResource::collection($this->notesRepository->getPreloadTags($request->text));
+        }
+        return response()->json(['data' => []], 200); 
     }
 }

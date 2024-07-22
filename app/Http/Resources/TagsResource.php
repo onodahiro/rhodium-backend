@@ -5,7 +5,7 @@ namespace App\Http\Resources;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class NotesResource extends JsonResource
+class TagsResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -17,10 +17,7 @@ class NotesResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'text' => $this->text,
-            'checked' => $this->checked,
-            'tags' => $this->tags->map(fn($el) => ["id" => $el->id, "text" => $el->text]),
-            'date_created' => date('d-M-Y', strtotime($this->created_at)),
+            'text' => $this->text
         ];
     }
 }
