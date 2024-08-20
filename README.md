@@ -21,34 +21,6 @@ Laravel is a web application framework with expressive, elegant syntax. We belie
 
 Laravel is accessible, powerful, and provides tools required for large, robust applications.
 
-## Learning Laravel
-
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
-
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
-
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
-
-## Laravel Sponsors
-
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
-
-## Contributing
-
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
-
-## Code of Conduct
-
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
-
-## Security Vulnerabilities
-
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
-
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
-
 
 ## Install guide 
 
@@ -64,6 +36,7 @@ sudo systemctl reload nginx
 sudo apt install mysql-server
 
 sudo mysql
+
 SELECT user,authentication_string,plugin,host FROM mysql.user;
 
 ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY 'password';
@@ -80,26 +53,35 @@ FLUSH PRIVILEGES;
 
 ### PHP-FPM-8.2 / PHP Extensions
 
-sudo apt update && sudo apt install -y software-properties-common 
-sudo add-apt-repository ppa:ondrej/php 
-sudo apt update
-sudo apt install php8.2-fpm
-sudo apt-get install -y php-common php-mysql php-zip php-gd php-mbstring php-curl php-xml php-bcmath php-pgsql
+sudo apt update && sudo apt install -y software-properties-common
 
+sudo add-apt-repository ppa:ondrej/php
+
+sudo apt update
+
+sudo apt install php8.2-fpm
+
+sudo apt-get install -y php-common php-mysql php-zip php-gd php-mbstring php-curl php-xml php-bcmath php-pgsql
 
 ### COMPOSER
 sudo apt install php-cli unzip
 
 cd ~
+
 curl -sS https://getcomposer.org/installer -o /tmp/composer-setup.php
 HASH=`curl -sS https://composer.github.io/installer.sig`
 echo $HASH
 
+#### check Installer verified
 php -r "if (hash_file('SHA384', '/tmp/composer-setup.php') === '$HASH') { echo 'Installer verified'; } else { echo 'Installer corrupt'; unlink('composer-setup.php'); } echo PHP_EOL;"
 
 sudo php /tmp/composer-setup.php --install-dir=/usr/local/bin --filename=composer
 
-composer // Check composer is installed
+#### check composer installed
+composer
+
+### INSTALL DEPENDENCIES
+composer install
 
 
 ### NODE NPM
