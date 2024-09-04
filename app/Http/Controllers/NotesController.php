@@ -23,9 +23,9 @@ class NotesController extends Controller
     }
 
     public function getLastPage(Request $request) {
-        if ($request->byTagId) {  
+        if ($request->byTagId) {
             $tag = $this->notesRepository->getTag('id', $request->byTagId);
-            return $tag ? $tag->notes()->paginate(10)->lastPage() : 1;
+            return $tag ? $tag->notes()->latest()->paginate(10)->lastPage() : 1;
         }
         return $this->notesRepository->getNotesLastPage();
     }

@@ -43,7 +43,7 @@ class NotesService
     if ($tag) {
       $notes = $tag->notes();
       if ($notes) {
-          return $tag->notes()->orderBy('created_at')->paginate(10);
+          return $tag->notes()->latest()->paginate(10);
       }
     }
   }

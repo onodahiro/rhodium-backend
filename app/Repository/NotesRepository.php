@@ -20,7 +20,7 @@ class NotesRepository
   }
 
   public function getNotes() {
-    return Notes::orderBy('created_at')->paginate(10);
+    return Notes::latest()->paginate(10);
   }
 
   public function createNote($value) {
