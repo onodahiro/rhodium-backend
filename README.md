@@ -55,7 +55,7 @@ Thank you for considering contributing to the Laravel framework! The contributio
 
 ## Links
 
-[Server configuration](contact.md)
+[Server configuration](SERVER.md)
 
 ## Code of Conduct
 
