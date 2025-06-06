@@ -21,7 +21,9 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::get('/survey',  [SurveyController::class, 'saveAnswer']);
+Route::get('/go', function () {
+    return 'Go proebyvatsa !!!';
+});
 
 Route::prefix('notes')->group(function () {
     Route::get('',  [NotesController::class, 'getNotes']);
