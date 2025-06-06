@@ -69,7 +69,7 @@ In order to ensure that the Laravel community is welcoming to all, please review
 - cp ./.env.example ./.env
 - php artisan migrate
 - php artisan key:generate
-- chmod -R 776 ./storage/
+- chmod -R 777 ./storage/
 
 ## License
 
