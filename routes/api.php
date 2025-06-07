@@ -21,6 +21,8 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
+Route::post('/survey',  [SurveyController::class, 'saveAnswer']);
+
 Route::get('/go', function () {
     return 'Go proebyvatsa !!!';
 });
