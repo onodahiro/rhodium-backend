@@ -12,7 +12,9 @@ class Tags extends Model
      *
      * @var array<int, string>
      */
-    protected $fillable = ['text'];
+    protected $fillable = [
+        'text',
+    ];
 
     public function notes()
     {

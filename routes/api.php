@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\SurveyController;
+use App\Http\Controllers\RecordsController;
 use App\Http\Controllers\NotesController;
 
 /*
@@ -34,4 +35,9 @@ Route::prefix('notes')->group(function () {
     Route::post('save',  [NotesController::class, 'saveNote']);
     Route::get('tag',  [NotesController::class, 'getPreloadTags']);
     Route::post('by-tag',  [NotesController::class, 'getNotesByTag']);
+});
+
+Route::prefix('record')->group(function () {
+    Route::post('create-type',  [RecordsController::class, 'saveRecord']);
+    Route::get('',  [RecordsController::class, 'getRecords']);
 });

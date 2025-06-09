@@ -6,5 +6,8 @@ use Illuminate\Database\Eloquent\Model;
  
 class TagNote extends Model
 {
-  protected $fillable = ['tags_id', 'notes_id'];
+  protected $fillable = [
+    'tags_id',
+    'notes_id',
+  ];
 }
