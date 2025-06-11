@@ -11,7 +11,7 @@ use App\Repository\NotesRepository;
 class NotesService
 {
 
-  // Repositories
+  // Repository
   private NotesRepository $notesRepository;
 
   public function __construct(

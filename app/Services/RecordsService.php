@@ -2,7 +2,8 @@
 
 namespace App\Services;
 
-use App\Repository\RecordsRepository;
+use App\Models\RecordTypes;
+use App\Models\Records;
 
 /**
  * Class RecordsService
@@ -11,20 +12,28 @@ use App\Repository\RecordsRepository;
 class RecordsService
 {
 
-  // Repositories
-  private RecordsRepository $recordsRepository;
-
-  public function __construct(
-    RecordsRepository $recordsRepository,
-  ) {
-      $this->recordsRepository = $recordsRepository;
+  public function createRecordType($data) {
+    return RecordTypes::create($data);
   }
 
-  public function saveRecord($req) {
-    // dd(1);
-    $res = $this->recordsRepository->createRecord(['name' => $req['name'], 'points' => $req['points']]);
-    if ($res) {
-      return true;
-    }
+  public function getRecordTypes() {
+    return RecordTypes::all();
+  }
+
+  public function createRecord($req) {
+    $recordsCount = Records::count();
+
+    $data = [
+      'record_type_id' => $req['type_id'],
+      'text' => $req['text'],
+      'order' => $recordsCount + 1,
+    ];
+
+    return Records::create($data);
+  }
+
+  public function getRecordsByTheme($themeId) {
+    $theme = RecordTypes::find($themeId);
+    return $theme->records()->get();
   }
 }
