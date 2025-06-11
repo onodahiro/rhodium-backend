@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\SurveyController;
+use App\Http\Controllers\RecordsController;
 use App\Http\Controllers\NotesController;
 
 /*
@@ -27,11 +28,18 @@ Route::get('/go', function () {
     return 'Go proebyvatsa !!!';
 });
 
-Route::prefix('notes')->group(function () {
+Route::prefix('/notes')->group(function () {
     Route::get('',  [NotesController::class, 'getNotes']);
     Route::get('last-page',  [NotesController::class, 'getLastPage']);
     Route::get('check',  [NotesController::class, 'checkNote']);
-    Route::post('save',  [NotesController::class, 'saveNote']);
+    Route::post('save',  [NotesController::class, 'createNote']);
     Route::get('tag',  [NotesController::class, 'getPreloadTags']);
     Route::post('by-tag',  [NotesController::class, 'getNotesByTag']);
+});
+
+Route::prefix('/records')->group(function () {
+    Route::get('/',  [RecordsController::class, 'getRecords']);
+    Route::post('/',  [RecordsController::class, 'createRecord']);
+    Route::get('/type',  [RecordsController::class, 'getTypes']);
+    Route::post('/type',  [RecordsController::class, 'createType']);
 });

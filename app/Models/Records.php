@@ -6,7 +6,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Notes extends Model
+class Records extends Model
 {
     use HasFactory;
 
@@ -16,11 +16,16 @@ class Notes extends Model
      * @var array<int, string>
      */
     protected $fillable = [
+        'record_type_id',
         'text',
+        'order',
+        'done',
     ];
 
-    public function tags()
+    public function type()
     {
-        return $this->belongsToMany(Tags::class, 'tag_note');
+        return $this->belongsTo(RecordTypes::class);
     }
+
+
 }
