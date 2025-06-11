@@ -20,7 +20,7 @@ class NotesService
       $this->notesRepository = $notesRepository;
   }
 
-  public function saveNote($text) {
+  public function createNote($text) {
     $result = $this->removeTagsFromText($text);
     $note = $this->notesRepository->createNote(['text' => $result['text']]);
     $this->updateTags($result['tags'], $note);
