@@ -3,11 +3,10 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Validation\Rules\Password;
 
 use App\Services\UserService;
-use Illuminate\Http\JsonResponse;
-use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
@@ -29,8 +28,8 @@ class UserController extends Controller
         return $this->userService->login($request->all());
     }
 
-    public function logout(Request $request): JsonResponse {
-        return $this->userService->logout($request->id);
+    public function logout(): JsonResponse {
+        return $this->userService->logout();
     }
 
     public function createUser(Request $request): JsonResponse {
@@ -45,5 +44,13 @@ class UserController extends Controller
 
     public function getUser(Request $request) {
         return $this->userService->getUser($request->id);
+    }
+
+    public function sendVerifyEmail() {
+        return $this->userService->sendVerifyEmail();
+    }
+
+    public function verifyUser(Request $request) {
+        return $this->userService->verifyUser($request);
     }
 }
