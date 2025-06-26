@@ -5,6 +5,7 @@ namespace App\Exceptions;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Throwable;
 use Illuminate\Validation\ValidationException;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Exception\RouteNotFoundException;
 
 class Handler extends ExceptionHandler
@@ -33,8 +34,11 @@ class Handler extends ExceptionHandler
             if ($e instanceof ValidationException) {
                 return response()->json(['message' => $e->errors()], $e->status);
             }
+            if ($e instanceof NotFoundHttpException) {
+                return response()->json(['error' => $e->getMessage()], 404);
+            }
             if ($e instanceof RouteNotFoundException) {
-                return response()->json(['error' => 'Route not found.'], 404);
+                return response()->json(['error' => $e->getMessage()], 500);
             }
         });
     }
