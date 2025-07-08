@@ -23,7 +23,7 @@ Route::prefix('user')->group(function () {
     Route::get('',  [UserController::class, 'getUser'])->middleware('auth:sanctum');
     Route::post('login',  [UserController::class, 'login']);
     Route::get('logout',  [UserController::class, 'logout'])->middleware('auth:sanctum');;
-    Route::post('create',  [UserController::class, 'createUser']);
+    Route::post('registration',  [UserController::class, 'registration']);
     Route::get('send-email',  [UserController::class, 'sendVerifyEmail'])->middleware('auth:sanctum');
     Route::get('verify',  [UserController::class, 'verifyUser'])->middleware('auth:sanctum');
 });

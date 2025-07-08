@@ -32,7 +32,7 @@ class UserController extends Controller
         return $this->userService->logout();
     }
 
-    public function createUser(Request $request): JsonResponse {
+    public function registration(Request $request): JsonResponse {
         $request->validate([
             'name' => 'required|string|min:3|max:255|unique:users',
             'email' => 'required|string|email|max:255|unique:users',
