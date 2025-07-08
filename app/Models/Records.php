@@ -22,4 +22,10 @@ class Records extends Model
         'done',
     ];
 
+    public function type()
+    {
+        return $this->belongsTo(RecordTypes::class);
+    }
+
+
 }

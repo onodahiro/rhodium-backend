@@ -30,16 +30,18 @@ Route::prefix('user')->group(function () {
 
 Route::post('/survey',  [SurveyController::class, 'saveAnswer']);
 
-Route::prefix('notes')->group(function () {
+Route::prefix('/notes')->group(function () {
     Route::get('',  [NotesController::class, 'getNotes']);
     Route::get('last-page',  [NotesController::class, 'getLastPage']);
     Route::get('check',  [NotesController::class, 'checkNote']);
-    Route::post('save',  [NotesController::class, 'saveNote']);
+    Route::post('save',  [NotesController::class, 'createNote']);
     Route::get('tag',  [NotesController::class, 'getPreloadTags']);
     Route::post('by-tag',  [NotesController::class, 'getNotesByTag']);
 });
 
-Route::prefix('record')->group(function () {
-    Route::post('create-type',  [RecordsController::class, 'saveRecord']);
-    Route::get('',  [RecordsController::class, 'getRecords']);
+Route::prefix('/records')->group(function () {
+    Route::get('/',  [RecordsController::class, 'getRecords']);
+    Route::post('/',  [RecordsController::class, 'createRecord']);
+    Route::get('/type',  [RecordsController::class, 'getTypes']);
+    Route::post('/type',  [RecordsController::class, 'createType']);
 });

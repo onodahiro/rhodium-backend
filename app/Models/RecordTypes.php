@@ -6,7 +6,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Records extends Model
+class RecordTypes extends Model
 {
     use HasFactory;
 
@@ -19,4 +19,8 @@ class Records extends Model
         'name',
     ];
 
+    public function records()
+    {
+        return $this->hasMany(Records::class, 'record_type_id');
+    }
 }
