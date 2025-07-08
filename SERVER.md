@@ -31,6 +31,7 @@
 - sudo apt update
 - sudo apt install php8.2-fpm
 - sudo apt-get install -y php-common php-mysql php-zip php-gd php-mbstring php-curl php-xml php-bcmath php-pgsql
+- sudo apt-get install php8.2-mysql
 
 ### COMPOSER
 
