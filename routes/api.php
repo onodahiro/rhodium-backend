@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\SurveyController;
 use App\Http\Controllers\RecordsController;
 use App\Http\Controllers\NotesController;
+use App\Http\Controllers\UserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -18,15 +19,16 @@ use App\Http\Controllers\NotesController;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
+Route::prefix('user')->group(function () {
+    Route::get('',  [UserController::class, 'getUser'])->middleware('auth:sanctum');
+    Route::post('login',  [UserController::class, 'login']);
+    Route::get('logout',  [UserController::class, 'logout'])->middleware('auth:sanctum');;
+    Route::post('registration',  [UserController::class, 'registration']);
+    Route::get('send-email',  [UserController::class, 'sendVerifyEmail'])->middleware('auth:sanctum');
+    Route::get('verify',  [UserController::class, 'verifyUser'])->middleware('auth:sanctum');
 });
 
 Route::post('/survey',  [SurveyController::class, 'saveAnswer']);
-
-Route::get('/go', function () {
-    return 'Go proebyvatsa !!!';
-});
 
 Route::prefix('/notes')->group(function () {
     Route::get('',  [NotesController::class, 'getNotes']);
