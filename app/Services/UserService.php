@@ -3,9 +3,11 @@
 namespace App\Services;
 
 use Illuminate\Http\JsonResponse;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Mail;
-use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\ {
+  Auth,
+  Mail,
+  Cache,
+};
 
 use App\Mail\WelcomeMail;
 use App\Models\User;
@@ -40,7 +42,7 @@ class UserService
 
     if ($user instanceof User) {
       $user->tokens()->delete();
-      return response()->json(['message' => 'success'], 200);
+      return response()->json(['message' => 'Success'], 200);
     }
 
     return response()->json(['message' => 'Unauthorized'], 401);
@@ -51,7 +53,7 @@ class UserService
     return $this->login($data);
   }
 
-    public function getUser($id) {
+  public function getUser($id) {
     $user = User::find($id);
     if ($user instanceof User) {
       return response()->json(['user' => $user], 200);
@@ -62,6 +64,7 @@ class UserService
 
   public function sendVerifyEmail() {
     $user = $user = auth('sanctum')->user();
+    $cacheKey = 'uesr_' . $user->id;
     $code = sprintf("%06d", mt_rand(0, 999999));
 
     $data = [
@@ -70,25 +73,26 @@ class UserService
     ];
 
     Mail::to($user->email)->send(new WelcomeMail($data));
-    Cache::forget('uesr_' . $user->id);
-    Cache::put('uesr_' . $user->id, $code, now()->addMinutes(10));
+    Cache::forget($cacheKey);
+    Cache::put($cacheKey, $code, now()->addMinutes(10));
 
-    return response()->json(['message' => 'success'], 200);
+    return response()->json(['message' => 'Success'], 200);
   }
 
   public function verifyUser($data) {
     $user = auth('sanctum')->user();
+    $cacheKey = 'uesr_' . $user->id;
 
-    if ($user instanceof User) {
-      $code = Cache::get('uesr_' . $user->id);
+    if (!Cache::has($cacheKey)) 
+      return response()->json(['message' => 'The verification code has expired'], 400);
 
-      if ($code === $data->code) {
-        $user->markEmailAsVerified();
-        return response()->json(['message' => 'success'], 200);
-      }
+    $code = Cache::get('uesr_' . $user->id);
+    
+    if ($code === $data->code) {
+      if ($user instanceof User) $user->markEmailAsVerified();
+      return response()->json(['message' => 'Verified'], 200);
     }
-
-    return response()->json(['message' => 'Bad request'], 400);
+    
+    return response()->json(['message' => 'Wrong code'], 400);
   }
 }
-
