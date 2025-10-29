@@ -25,7 +25,8 @@ Route::prefix('user')->group(function () {
     Route::get('logout',  [UserController::class, 'logout'])->middleware('auth:sanctum');;
     Route::post('registration',  [UserController::class, 'registration']);
     Route::get('send-email',  [UserController::class, 'sendVerifyEmail'])->middleware('auth:sanctum');
-    Route::get('verify',  [UserController::class, 'verifyUser'])->middleware('auth:sanctum');
+    Route::get('verify-email',  [UserController::class, 'verifyEmail'])->middleware('auth:sanctum');
+    Route::patch('change-email',  [UserController::class, 'changeEmail'])->middleware('auth:sanctum');
 });
 
 Route::post('/survey',  [SurveyController::class, 'saveAnswer']);

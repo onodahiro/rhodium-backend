@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\ {
   Auth,
   Mail,
   Cache,
+  Hash,
 };
 
 use App\Mail\WelcomeMail;
@@ -18,6 +19,15 @@ use App\Models\User;
  */
 class UserService
 {
+  public function callWithCheckPass($req, $func) {
+    $user = auth('sanctum')->user();
+
+    if (Hash::check($req->password, $user->password))
+      return self::{$func}($user, $req->email);
+
+    return response()->json(['message' => 'Wrong password'], 400);
+  }
+
   public function login($data): JsonResponse {
     if (Auth::attempt($data)) {
       $user = Auth::user();
@@ -79,7 +89,7 @@ class UserService
     return response()->json(['message' => 'Success'], 200);
   }
 
-  public function verifyUser($data) {
+  public function verifyEmail($data) {
     $user = auth('sanctum')->user();
     $cacheKey = 'uesr_' . $user->id;
 
@@ -94,5 +104,14 @@ class UserService
     }
     
     return response()->json(['message' => 'Wrong code'], 400);
+  }
+
+  public static function changeEmail($user, $email) {
+    $user->update([
+        'email' => $email,
+        'email_verified_at' => null
+      ]);
+
+    return response()->json(['message' => 'Success'], 200);
   }
 }

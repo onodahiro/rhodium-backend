@@ -7,7 +7,6 @@ use Illuminate\Http\ {
     JsonResponse,
 };
 use Illuminate\Validation\Rules\Password;
-
 use App\Services\UserService;
 
 class UserController extends Controller
@@ -44,15 +43,24 @@ class UserController extends Controller
         return $this->userService->createUser($request->all());
     }
 
-    public function getUser(Request $request) {
+    public function getUser(Request $request): JsonResponse {
         return $this->userService->getUser($request->id);
     }
 
-    public function sendVerifyEmail() {
+    public function sendVerifyEmail(): JsonResponse {
         return $this->userService->sendVerifyEmail();
     }
 
-    public function verifyUser(Request $request) {
-        return $this->userService->verifyUser($request);
+    public function verifyEmail(Request $request): JsonResponse {
+        return $this->userService->verifyEmail($request);
+    }
+
+    public function changeEmail(Request $request) {
+        $request->validate([
+            'email' => 'required|string|email|max:255|unique:users',
+            'password' => ['required', 'max:255', Password::min(6)->numbers()->letters()],
+        ]);
+
+        return $this->userService->callWithCheckPass($request, __FUNCTION__);
     }
 }
