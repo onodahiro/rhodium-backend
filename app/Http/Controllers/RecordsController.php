@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-
 use App\Services\RecordsService;
-use Exception;
+use App\Http\Controllers\Controller;
+use App\Http\Resources\RecordTypesResource;
+use App\Models\RecordTypes;
 
 class RecordsController extends Controller
 {
@@ -19,45 +19,27 @@ class RecordsController extends Controller
     }
 
     public function createType(Request $request) {
-        try {
-            $request->validate([
-                'name' => 'required|max:255',
-            ]);
-            $result = $this->recordsService->createRecordType($request->all());
+        $request->validate([
+            'name' => 'required|max:255|unique:record_types',
+        ]);
 
-            if (isset($result)) {
-                return response()->json(['message' => 'Saved successfully'], 200);
-            }
-        } catch (Exception $e) {
-            return response()->json(['message' => $e], 400);
-        }
+        return $this->recordsService->createRecordType($request->all());
     }
 
     public function getTypes() {
-        return $this->recordsService->getRecordTypes();
+        return RecordTypesResource::collection(RecordTypes::all());
     }
 
     public function createRecord(Request $request) {
-        try {
-            $request->validate([
-                'type_id' => 'required',
-                'text' => 'required|max:1000',
-            ]);
-            $result = $this->recordsService->createRecord($request->all());
+        $request->validate([
+            'type_id' => 'required',
+            'text' => 'required|max:1000',
+        ]);
 
-            if (isset($result)) {
-                return response()->json(['message' => 'Saved successfully'], 200);
-            }
-        } catch (Exception $e) {
-            return response()->json(['message' => $e], 400);
-        }
+        return $this->recordsService->createRecord($request->all());
     }
 
     public function getRecords(Request $request) {
-        try {
-            return $this->recordsService->getRecordsByTheme($request?->type_id);
-        } catch (Exception $e) {
-            return response()->json(['message' => $e], 400);
-        }
+        return $this->recordsService->getRecordsByTheme($request?->type_id);
     }
 }

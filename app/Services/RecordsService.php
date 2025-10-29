@@ -13,11 +13,13 @@ class RecordsService
 {
 
   public function createRecordType($data) {
-    return RecordTypes::create($data);
-  }
+    $type = RecordTypes::create($data);
 
-  public function getRecordTypes() {
-    return RecordTypes::all();
+    if ($type) {
+      return response()->json(['message' => 'Success'], 200);
+    }
+
+    return response()->json(['message' => 'Bad request'], 400);
   }
 
   public function createRecord($req) {
@@ -29,7 +31,13 @@ class RecordsService
       'order' => $recordsCount + 1,
     ];
 
-    return Records::create($data);
+    $record = Records::create($data);
+
+    if ($record) {
+      return response()->json(['message' => 'Success'], 200);
+    }
+
+    return response()->json(['message' => 'Bad request'], 400);
   }
 
   public function getRecordsByTheme($themeId) {
