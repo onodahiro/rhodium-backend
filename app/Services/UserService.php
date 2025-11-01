@@ -19,11 +19,11 @@ use App\Models\User;
  */
 class UserService
 {
-  public function callWithCheckPass($req, $func) {
+  public function callWithCheckPass($request, $func) {
     $user = auth('sanctum')->user();
 
-    if (Hash::check($req->password, $user->password))
-      return self::{$func}($user, $req->email);
+    if (Hash::check($request->password, $user->password))
+      return self::{$func}($user, $request);
 
     return response()->json(['message' => 'Wrong password'], 400);
   }
@@ -106,11 +106,23 @@ class UserService
     return response()->json(['message' => 'Wrong code'], 400);
   }
 
-  public static function changeEmail($user, $email) {
+  public static function changeEmail($user, $request) {
     $user->update([
-        'email' => $email,
+        'email' => $request->email,
         'email_verified_at' => null
       ]);
+
+    return response()->json(['message' => 'Success'], 200);
+  }
+
+  public static function changePassword($user, $request) {
+    if (Hash::check($request->newPassword, $user->password)) {
+      return response()->json(['message' => __('passwords.must_diff')], 400);
+    }
+  
+    $user->update([
+      'password' => Hash::make($request->newPassword),
+    ]);
 
     return response()->json(['message' => 'Success'], 200);
   }

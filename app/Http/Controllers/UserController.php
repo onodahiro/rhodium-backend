@@ -63,4 +63,15 @@ class UserController extends Controller
 
         return $this->userService->callWithCheckPass($request, __FUNCTION__);
     }
+
+    public function changePassword(Request $request) {
+        $request->validate([
+            'password' => ['required', 'max:255', Password::min(6)->numbers()->letters()],
+            'newPassword' => ['required', 'max:255', Password::min(6)->numbers()->letters()],
+        ]);
+
+        return $this->userService->callWithCheckPass($request, __FUNCTION__);
+    }
+
+    // reset password
 }

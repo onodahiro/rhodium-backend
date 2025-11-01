@@ -27,6 +27,7 @@ Route::prefix('user')->group(function () {
     Route::get('send-email',  [UserController::class, 'sendVerifyEmail'])->middleware('auth:sanctum');
     Route::get('verify-email',  [UserController::class, 'verifyEmail'])->middleware('auth:sanctum');
     Route::patch('change-email',  [UserController::class, 'changeEmail'])->middleware('auth:sanctum');
+    Route::patch('change-password',  [UserController::class, 'changePassword'])->middleware('auth:sanctum');
 });
 
 Route::post('/survey',  [SurveyController::class, 'saveAnswer']);
