@@ -65,7 +65,6 @@ class NotesController extends Controller
 
     public function getPreloadTags(Request $request) {
         if (isset($request->text)) {
-            dd($this->notesRepository->getPreloadTags($request->text));
             return TagsResource::collection($this->notesRepository->getPreloadTags($request->text));
         }
         return response()->json(['data' => []], 200);

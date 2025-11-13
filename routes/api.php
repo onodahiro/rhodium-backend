@@ -35,7 +35,7 @@ Route::prefix('user')->group(function () {
 
 Route::post('/survey',  [SurveyController::class, 'saveAnswer']);
 
-Route::prefix('/notes')->group(function () {
+Route::prefix('notes')->group(function () {
     Route::get('',  [NotesController::class, 'getNotes']);
     Route::get('last-page',  [NotesController::class, 'getLastPage']);
     Route::get('check',  [NotesController::class, 'checkNote']);
