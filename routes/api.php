@@ -24,10 +24,13 @@ Route::prefix('user')->group(function () {
     Route::post('login',  [UserController::class, 'login']);
     Route::get('logout',  [UserController::class, 'logout'])->middleware('auth:sanctum');;
     Route::post('registration',  [UserController::class, 'registration']);
-    Route::get('send-email',  [UserController::class, 'sendVerifyEmail'])->middleware('auth:sanctum');
+    Route::get('send-verify-code',  [UserController::class, 'sendVerifyCode'])->middleware('auth:sanctum');
     Route::get('verify-email',  [UserController::class, 'verifyEmail'])->middleware('auth:sanctum');
     Route::patch('change-email',  [UserController::class, 'changeEmail'])->middleware('auth:sanctum');
     Route::patch('change-password',  [UserController::class, 'changePassword'])->middleware('auth:sanctum');
+    Route::get('send-lost-pass-email',  [UserController::class, 'sendLostPassEmail']);
+    Route::get('check-lost-pass-code',  [UserController::class, 'checkLostPassCode']);
+    Route::post('set-lost-password',  [UserController::class, 'setLostPassword']);
 });
 
 Route::post('/survey',  [SurveyController::class, 'saveAnswer']);

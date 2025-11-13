@@ -1,5 +1,5 @@
 <?php
-
+/** @noinspection PhpUndefinedVariableInspection */
 namespace App\Http\Controllers;
 
 use Illuminate\Http\ {
@@ -47,15 +47,15 @@ class UserController extends Controller
         return $this->userService->getUser($request->id);
     }
 
-    public function sendVerifyEmail(): JsonResponse {
-        return $this->userService->sendVerifyEmail();
+    public function sendVerifyCode(): JsonResponse {
+        return $this->userService->sendVerifyCode();
     }
 
     public function verifyEmail(Request $request): JsonResponse {
         return $this->userService->verifyEmail($request);
     }
 
-    public function changeEmail(Request $request) {
+    public function changeEmail(Request $request): JsonResponse {
         $request->validate([
             'email' => 'required|string|email|max:255|unique:users',
             'password' => ['required', 'max:255', Password::min(6)->numbers()->letters()],
@@ -64,7 +64,7 @@ class UserController extends Controller
         return $this->userService->callWithCheckPass($request, __FUNCTION__);
     }
 
-    public function changePassword(Request $request) {
+    public function changePassword(Request $request): JsonResponse {
         $request->validate([
             'password' => ['required', 'max:255', Password::min(6)->numbers()->letters()],
             'newPassword' => ['required', 'max:255', Password::min(6)->numbers()->letters()],
@@ -73,5 +73,24 @@ class UserController extends Controller
         return $this->userService->callWithCheckPass($request, __FUNCTION__);
     }
 
-    // reset password
+    public function sendLostPassEmail(Request $request): JsonResponse {
+        $request->validate([
+            'email' => 'required|string|email|max:255|exists:users',
+        ]);
+
+        return $this->userService->sendLostPassEmail($request);
+    }
+    
+    public function checkLostPassCode(Request $request): JsonResponse {
+        return $this->userService->checkLostPassCode($request);
+    }
+
+    public function setLostPassword(Request $request): JsonResponse {
+        $request->validate([
+            'code' => 'required',
+            'newPassword' => ['required', 'max:255', Password::min(6)->numbers()->letters()],
+        ]);
+
+        return $this->userService->setLostPassword($request);
+    }
 }

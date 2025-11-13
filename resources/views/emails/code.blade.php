@@ -43,16 +43,16 @@
         <header>
         </header>
         <section>
-            <p>Thank you for registering, {{ $name }} !</p>
+            <p>Hello, {{ $name }} !</p>
 
-            <p>To complete account activation, insert this code!</p>
+            <p>This is you code!</p>
 
             <p class='code'><strong>{{ $code }}</strong></p>
 
-            <p>Yaay !</p>
+            <p>Yay !</p>
         </section>
         <footer>
-            © 2025 AmberRhodium
+            © 2024-2025 AmberRhodium
         </footer>
     </div>
 </body>
