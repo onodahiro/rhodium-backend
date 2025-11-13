@@ -162,8 +162,7 @@ class UserService
     $cacheKey = $request->email . $request->code;
     $userId = Cache::get($cacheKey);
     $user = User::find($userId);
-    dump($cacheKey);
-    dd($userId);
+
     if ($user instanceof User) {
         $token = $user->createToken('YourAppName')->plainTextToken;
         return response()->json([
