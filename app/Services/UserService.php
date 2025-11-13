@@ -164,13 +164,13 @@ class UserService
     $user = User::find($userId);
 
     if ($user instanceof User) {
-        $token = $user->createToken('YourAppName')->plainTextToken;
-        return response()->json([
-          'message' => 'Aproved',
-          'access_token' => $token,
-          'token_type' => 'Bearer',
-          'user' => $user,
-        ]);
+      $token = $user->createToken('YourAppName')->plainTextToken;
+      return response()->json([
+        'message' => 'Aproved',
+        'access_token' => $token,
+        'token_type' => 'Bearer',
+        'user' => $user,
+      ]);
     }
 
     return response()->json(['message' => 'Bad request'], 400);
