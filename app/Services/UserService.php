@@ -1,5 +1,5 @@
 <?php
-/** @noinspection PhpUndefinedVariableInspection */
+
 namespace App\Services;
 
 use Illuminate\Http\JsonResponse;
@@ -20,33 +20,29 @@ use App\Models\User;
  */
 class UserService
 {
-  public function callWithCheckPass(Request $request, $func) {
+  public function callWithCheckPass(Request $request, $func): callable | JsonResponse {
     $user = auth('sanctum')->user();
 
     if (Hash::check($request->password, $user->password)) {
       return self::{$func}($user, $request);
     }
 
-    return response()->json(['message' => 'Wrong password'], 400);
+    return response()->json(['message' => __('auth.password')], 400);
   }
 
   public function login($data): JsonResponse {
     if (Auth::attempt($data)) {
       $user = Auth::user();
+      $token = $user->createToken('YourAppName')->plainTextToken;
 
-      if ($user instanceof User) {
-        $token = $user->createToken('YourAppName')->plainTextToken;
-        return response()->json([
-          'access_token' => $token,
-          'token_type' => 'Bearer',
-          'user' => $user,
-        ]);
-      }
-
-      return response()->json(['message' => 'Bad request'], 400);
+      return response()->json([
+        'access_token' => $token,
+        'token_type' => 'Bearer',
+        'user' => $user,
+      ], 200);
     }
 
-    return response()->json(['message' => 'Unauthorized'], 401);
+    return response()->json(['message' => __('auth.failed')], 401);
   }
 
   public function logout() {
@@ -54,10 +50,10 @@ class UserService
 
     if ($user instanceof User) {
       $user->tokens()->delete();
-      return response()->json(['message' => 'Success'], 200);
+      return response()->json(['message' => __('auth.logout')], 200);
     }
 
-    return response()->json(['message' => 'Unauthorized'], 401);
+    return response()->json(['message' => __('auth.sww')], 401);
   }
 
   public function createUser($data) {
@@ -139,7 +135,7 @@ class UserService
     $user = User::where('email', $request->email)->first();
 
     if (!$user) {
-      return response()->json(['message' => 'User not found'], 400);
+      return response()->json(['message' => __('passwords.user')], 404);
     }
 
     $cacheKey = 'uesr_pass_' . $user->id;
@@ -181,7 +177,7 @@ class UserService
     $cacheKey = $user->email . $request->code;
     $userId = Cache::get($cacheKey);
 
-    if ($userId === $user->id) {
+    if (($user instanceof User) && ($userId === $user->id)) {
       $user->update([
         'password' => Hash::make($request->newPassword),
       ]);

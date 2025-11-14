@@ -21,7 +21,7 @@
 - sudo mysql -u root -p
 - CREATE USER 'laravel'@'localhost' IDENTIFIED WITH mysql_native_password BY 'password';
 - CREATE DATABASE laravel;
- -GRANT ALL ON laravel.* TO 'laravel'@'localhost';
+- GRANT ALL ON laravel.* TO 'laravel'@'localhost';
 - FLUSH PRIVILEGES;
 
 ### PHP-FPM-8.2 / PHP Extensions

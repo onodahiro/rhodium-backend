@@ -2,11 +2,16 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-
 use App\Services\RecordsService;
+use App\Http\Controllers\Controller;
+use App\Http\Resources\RecordTypesResource;
+use App\Models\RecordTypes;
 
+/**
+ * Class RecordsController
+ * @package App\Controllers
+ */
 class RecordsController extends Controller
 {
     private RecordsService $recordsService;
@@ -17,17 +22,28 @@ class RecordsController extends Controller
         $this->recordsService = $recordsService;
     }
 
-    public function getRecords() {
-        return NotesResource::collection($this->notesRepository->getNotes());
+    public function createType(Request $request) {
+        $request->validate([
+            'name' => 'required|max:255|unique:record_types',
+        ]);
+
+        return $this->recordsService->createRecordType($request->all());
     }
 
-    public function saveRecord(Request $request) {
-        if (isset($request->name) && isset($request->points)) {
-            $result = $this->recordsService->saveRecord($request);
-            if (isset($result)) {
-                return response()->json(['message' => 'Saved successfully'], 200);
-            }
-        }
-        return response()->json(['message' => 'Bad request'], 400);
+    public function getTypes() {
+        return RecordTypesResource::collection(RecordTypes::all());
+    }
+
+    public function createRecord(Request $request) {
+        $request->validate([
+            'type_id' => 'required',
+            'text' => 'required|max:1000',
+        ]);
+
+        return $this->recordsService->createRecord($request->all());
+    }
+
+    public function getRecords(Request $request) {
+        return $this->recordsService->getRecordsByTheme($request?->type_id);
     }
 }

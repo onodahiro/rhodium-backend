@@ -9,6 +9,10 @@ use App\Http\Resources\TagsResource;
 use App\Services\NotesService;
 use App\Repository\NotesRepository;
 
+/**
+ * Class NotesController
+ * @package App\Controllers
+ */
 class NotesController extends Controller
 {
     private NotesService $notesService;
@@ -40,14 +44,14 @@ class NotesController extends Controller
             if ($notes) {
                 return NotesResource::collection($notes);
             }
-            return response()->json(['data' => []], 200); 
+            return response()->json(['data' => []], 200);
         }
         return response()->json(['message' => 'Bad request'], 400);
     }
 
-    public function saveNote(Request $request) {
+    public function createNote(Request $request) {
         if (isset($request->text)) {
-            $result = $this->notesService->saveNote($request->text);
+            $result = $this->notesService->createNote($request->text);
             if (isset($result)) {
                 return response()->json(['message' => 'Saved successfully'], 200);
             }
@@ -67,6 +71,6 @@ class NotesController extends Controller
         if (isset($request->text)) {
             return TagsResource::collection($this->notesRepository->getPreloadTags($request->text));
         }
-        return response()->json(['data' => []], 200); 
+        return response()->json(['data' => []], 200);
     }
 }

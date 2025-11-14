@@ -2,7 +2,8 @@
 
 namespace App\Services;
 
-use App\Repository\RecordsRepository;
+use App\Models\RecordTypes;
+use App\Models\Records;
 
 /**
  * Class RecordsService
@@ -11,20 +12,36 @@ use App\Repository\RecordsRepository;
 class RecordsService
 {
 
-  // Repositories
-  private RecordsRepository $recordsRepository;
+  public function createRecordType($data) {
+    $type = RecordTypes::create($data);
 
-  public function __construct(
-    RecordsRepository $recordsRepository,
-  ) {
-      $this->recordsRepository = $recordsRepository;
+    if ($type) {
+      return response()->json(['message' => 'Success'], 200);
+    }
+
+    return response()->json(['message' => 'Bad request'], 400);
   }
 
-  public function saveRecord($req) {
-    // dd(1);
-    $res = $this->recordsRepository->createRecord(['name' => $req['name'], 'points' => $req['points']]);
-    if ($res) {
-      return true;
+  public function createRecord($req) {
+    $recordsCount = Records::count();
+
+    $data = [
+      'record_type_id' => $req['type_id'],
+      'text' => $req['text'],
+      'order' => $recordsCount + 1,
+    ];
+
+    $record = Records::create($data);
+
+    if ($record) {
+      return response()->json(['message' => 'Success'], 200);
     }
+
+    return response()->json(['message' => 'Bad request'], 400);
+  }
+
+  public function getRecordsByTheme($themeId) {
+    $theme = RecordTypes::find($themeId);
+    return $theme->records()->get();
   }
 }

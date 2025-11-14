@@ -13,7 +13,8 @@ return new class extends Migration
     {
         Schema::create('records', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('record_type_id')->default(null)->nullable();
+            $table->unsignedBigInteger('record_type_id')->unsigned();
+            $table->foreign('record_type_id')->references('id')->on('record_types')->onDelete('cascade');
             $table->text('text');
             $table->integer('order');
             $table->boolean('done')->default(false);
