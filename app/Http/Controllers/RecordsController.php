@@ -8,6 +8,10 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\RecordTypesResource;
 use App\Models\RecordTypes;
 
+/**
+ * Class RecordsController
+ * @package App\Controllers
+ */
 class RecordsController extends Controller
 {
     private RecordsService $recordsService;

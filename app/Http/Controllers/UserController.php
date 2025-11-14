@@ -1,5 +1,5 @@
 <?php
-/** @noinspection PhpUndefinedVariableInspection */
+
 namespace App\Http\Controllers;
 
 use Illuminate\Http\ {
@@ -9,6 +9,10 @@ use Illuminate\Http\ {
 use Illuminate\Validation\Rules\Password;
 use App\Services\UserService;
 
+/**
+ * Class UserController
+ * @package App\Controllers
+ */
 class UserController extends Controller
 {
     private UserService $userService;
@@ -75,7 +79,7 @@ class UserController extends Controller
 
     public function sendLostPassEmail(Request $request): JsonResponse {
         $request->validate([
-            'email' => 'required|string|email|max:255|exists:users',
+            'email' => 'required|string|email|max:255',
         ]);
 
         return $this->userService->sendLostPassEmail($request);

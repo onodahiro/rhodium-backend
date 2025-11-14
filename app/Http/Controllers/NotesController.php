@@ -9,6 +9,10 @@ use App\Http\Resources\TagsResource;
 use App\Services\NotesService;
 use App\Repository\NotesRepository;
 
+/**
+ * Class NotesController
+ * @package App\Controllers
+ */
 class NotesController extends Controller
 {
     private NotesService $notesService;

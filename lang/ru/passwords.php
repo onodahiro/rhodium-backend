@@ -13,11 +13,11 @@ return [
     |
     */
 
-    // 'reset' => 'Your password has been reset.', // to do
-    // 'sent' => 'We have emailed your password reset link.',
-    // 'throttled' => 'Please wait before retrying.',
-    // 'token' => 'This password reset token is invalid.',
-    // 'user' => "We can't find a user with that email address.",
-    'must_diff' => "Новый пароль совпадает со старым",
+    'reset' => 'Ваш пароль был сброшен.',
+    'sent' => 'Мы отправили вам ссылку для сброса пароля по электронной почте.',
+    'throttled' => 'Пожалуйста, подождите перед повторной попыткой.',
+    'token' => 'Этот токен сброса пароля недействителен.',
+    'user' => "Мы не можем найти пользователя с таким адресом электронной почты.",
+    'must_diff' => "Новый пароль совпадает со старым.",
 
 ];
